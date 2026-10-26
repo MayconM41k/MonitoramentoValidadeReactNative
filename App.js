@@ -136,6 +136,7 @@ const obterStatusValidade = (dias) => {
 export default function App() {
   const [produtos, setProdutos] = useState([]);
   const [filtro, setFiltro] = useState('TODOS');
+  const [filtroStatus, setFiltroStatus] = useState('TODOS');
   const [modalVisivel, setModalVisivel] = useState(false);
 
   // Estados do formulário de cadastro
@@ -265,10 +266,20 @@ export default function App() {
     return dataA.getTime() - dataB.getTime();
   });
 
-  // Filtragem por categoria selecionada
+  // Filtragem combinada por categoria e por critério de validade
   const produtosFiltrados = produtosOrdenados.filter((item) => {
-    if (filtro === 'TODOS') return true;
-    return item.categoria === filtro;
+    // 1. Filtro por Categoria (Geladeira ou Medicamento)
+    if (filtro !== 'TODOS' && item.categoria !== filtro) {
+      return false;
+    }
+
+    // 2. Filtro por Critério de Status (Total, Vencidos, Atenção, No Prazo)
+    const dias = calcularDiasRestantes(item.dataValidade);
+    if (filtroStatus === 'VENCIDOS' && dias >= 0) return false;
+    if (filtroStatus === 'ATENCAO' && (dias < 0 || dias > 3)) return false;
+    if (filtroStatus === 'NOPRAZO' && dias <= 3) return false;
+
+    return true;
   });
 
   // Métricas do Dashboard para apresentação
@@ -301,25 +312,86 @@ export default function App() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Painel de Resumo / Métricas Rápidas */}
+        {/* Painel de Resumo / Métricas Rápidas (Clicáveis para filtrar) */}
         <View style={styles.painelMetricas}>
-          <View style={[styles.cardMetrica, { borderColor: '#e2e8f0' }]}>
+          <TouchableOpacity
+            style={[
+              styles.cardMetrica,
+              { borderColor: filtroStatus === 'TODOS' ? '#2563eb' : '#e2e8f0' },
+              filtroStatus === 'TODOS' && styles.cardMetricaAtivo,
+            ]}
+            onPress={() => setFiltroStatus('TODOS')}
+            activeOpacity={0.7}
+          >
             <Text style={styles.numeroMetrica}>{totalItens}</Text>
             <Text style={styles.rotuloMetrica}>Total</Text>
-          </View>
-          <View style={[styles.cardMetrica, { borderColor: '#fca5a5', backgroundColor: '#fef2f2' }]}>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.cardMetrica,
+              {
+                borderColor: filtroStatus === 'VENCIDOS' ? '#dc2626' : '#fca5a5',
+                backgroundColor: '#fef2f2',
+              },
+              filtroStatus === 'VENCIDOS' && styles.cardMetricaAtivo,
+            ]}
+            onPress={() => setFiltroStatus(filtroStatus === 'VENCIDOS' ? 'TODOS' : 'VENCIDOS')}
+            activeOpacity={0.7}
+          >
             <Text style={[styles.numeroMetrica, { color: '#dc2626' }]}>{totalVencidos}</Text>
             <Text style={[styles.rotuloMetrica, { color: '#b91c1c' }]}>Vencidos</Text>
-          </View>
-          <View style={[styles.cardMetrica, { borderColor: '#fcd34d', backgroundColor: '#fffbeb' }]}>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.cardMetrica,
+              {
+                borderColor: filtroStatus === 'ATENCAO' ? '#d97706' : '#fcd34d',
+                backgroundColor: '#fffbeb',
+              },
+              filtroStatus === 'ATENCAO' && styles.cardMetricaAtivo,
+            ]}
+            onPress={() => setFiltroStatus(filtroStatus === 'ATENCAO' ? 'TODOS' : 'ATENCAO')}
+            activeOpacity={0.7}
+          >
             <Text style={[styles.numeroMetrica, { color: '#d97706' }]}>{totalUrgentes}</Text>
             <Text style={[styles.rotuloMetrica, { color: '#b45309' }]}>Atenção</Text>
-          </View>
-          <View style={[styles.cardMetrica, { borderColor: '#86efac', backgroundColor: '#f0fdf4' }]}>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.cardMetrica,
+              {
+                borderColor: filtroStatus === 'NOPRAZO' ? '#16a34a' : '#86efac',
+                backgroundColor: '#f0fdf4',
+              },
+              filtroStatus === 'NOPRAZO' && styles.cardMetricaAtivo,
+            ]}
+            onPress={() => setFiltroStatus(filtroStatus === 'NOPRAZO' ? 'TODOS' : 'NOPRAZO')}
+            activeOpacity={0.7}
+          >
             <Text style={[styles.numeroMetrica, { color: '#16a34a' }]}>{totalSeguros}</Text>
             <Text style={[styles.rotuloMetrica, { color: '#15803d' }]}>No Prazo</Text>
-          </View>
+          </TouchableOpacity>
         </View>
+
+        {/* Barra indicadora caso um critério de status esteja ativo */}
+        {filtroStatus !== 'TODOS' && (
+          <View style={styles.barraFiltroAtivo}>
+            <Text style={styles.textoFiltroAtivoInfo}>
+              Filtrando por:{' '}
+              <Text style={styles.destaqueFiltroAtivo}>
+                {filtroStatus === 'VENCIDOS' && '🔴 Vencidos'}
+                {filtroStatus === 'ATENCAO' && '🟡 Em Atenção (até 3 dias)'}
+                {filtroStatus === 'NOPRAZO' && '🟢 No Prazo Seguro'}
+              </Text>
+            </Text>
+            <TouchableOpacity onPress={() => setFiltroStatus('TODOS')} activeOpacity={0.7}>
+              <Text style={styles.botaoLimparFiltroStatus}>Ver Todos</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Filtros por Categoria */}
         <View style={styles.containerFiltros}>
@@ -566,6 +638,39 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 1,
+  },
+  cardMetricaAtivo: {
+    borderWidth: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  barraFiltroAtivo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  textoFiltroAtivoInfo: {
+    fontSize: 12,
+    color: '#475569',
+  },
+  destaqueFiltroAtivo: {
+    fontWeight: 'bold',
+    color: '#0f172a',
+  },
+  botaoLimparFiltroStatus: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#2563eb',
   },
   numeroMetrica: {
     fontSize: 18,
