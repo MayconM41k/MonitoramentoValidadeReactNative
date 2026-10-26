@@ -62,13 +62,13 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 
 ## 🎤 Estrutura Obrigatória da Apresentação Técnica
 
-> *Este roteiro cobre na íntegra os 4 tópicos obrigatórios exigidos para a apresentação da dupla.*
+> *Este roteiro cobre na íntegra os 4 tópicos obrigatórios exigidos para a apresentação do projeto.*
 
 ### 1. Tecnologias Utilizadas
 - **Framework Base**: **React Native** com ecossistema **Expo (SDK 58)**, permitindo compilação multiplataforma simultânea para Android, iOS e Web.
 - **Gerenciamento de Estado**: Hooks nativos do React (`useState` para controle de inputs, listas e filtros; `useEffect` para ciclo de vida e carregamento inicial).
 - **Persistência de Dados**: `@react-native-async-storage/async-storage` para armazenamento local assíncrono chave-valor diretamente no dispositivo.
-- **Componentes Nativos & Ícones**: `@expo/vector-icons` (`Ionicons`) para iconografia vetorial e componentes nativos (`SafeAreaView`, `FlatList`, `Modal`, `TextInput`, `TouchableOpacity`, `Alert`).
+- **Componentes Nativos & Ícones**: `@expo/vector-icons` (`Ionicons`) para iconografia vetorial e componentes nativos (`SafeAreaView`, `ScrollView`, `Modal`, `TextInput`, `TouchableOpacity`, `Alert`, `Image`).
 
 ---
 
@@ -102,17 +102,17 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 
 ---
 
-### 4. Lições Aprendidas e Experiência da Equipe
-- **Domínio do fluxo do React Native**: Entendemos na prática como o React Native gerencia re-renderizações ao atualizar estados com `useState`.
-- **Importância da validação de dados**: Percebemos que guiar o usuário com máscaras simples evita erros de digitação e garante que o cálculo de validade não quebre o app.
-- **Trabalho em dupla**: Dividimos o desenvolvimento entre lógica de negócio (cálculo de datas e persistência) e design da interface (cores de urgência e responsividade), resultando em uma aplicação funcional e coesa.
+### 4. Lições Aprendidas e Experiência de Desenvolvimento
+- **Domínio do ciclo do React Native**: Entendimento prático de como o React Native gerencia estados com `useState` e re-renderiza a lista automaticamente.
+- **Validação de entradas no mobile**: A importância de aplicar máscaras amigáveis para evitar que o usuário digite datas inválidas e comprometa os cálculos.
+- **Desenvolvimento Individual Completo**: Condução autônoma de todas as etapas (regras de cálculo de datas, interface, persistência com AsyncStorage e design dos alertas visuais), garantindo entrega de 100% dos requisitos com código simples e bem estruturado.
 
 ---
 
 ## 🎬 Roteiro Sugerido para a Demonstração ao Vivo
 
 1. **Abertura (30s)**:
-   - "Nosso aplicativo é o **Monitor de Validade para Geladeira e Medicamentos**."
+   - "Meu projeto é o **Monitor de Validade para Geladeira e Medicamentos**."
    - Mostrar os 4 cards de métricas no topo e explicar que o app já abre com exemplos reais.
 2. **Alertas por Cores e Ordenação Automática (45s)**:
    - Apontar o card vermelho (vencido no topo), o amarelo (atenção) e o verde (seguro).
