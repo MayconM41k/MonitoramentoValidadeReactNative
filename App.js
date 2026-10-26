@@ -190,7 +190,7 @@ export default function App() {
   };
 
   // Adiciona novo produto
-  const handleAdicionarProduto = () => {
+  const adicionarProduto = () => {
     if (!nome.trim()) {
       mostrarAlerta('Atenção', 'Informe o nome do produto.');
       return;
@@ -571,7 +571,7 @@ export default function App() {
 
               <TouchableOpacity
                 style={styles.botaoSalvar}
-                onPress={handleAdicionarProduto}
+                onPress={adicionarProduto}
               >
                 <Text style={styles.textoBotaoSalvar}>Salvar Produto</Text>
               </TouchableOpacity>
