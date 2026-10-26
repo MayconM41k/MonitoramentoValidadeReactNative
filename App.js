@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
+  Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
@@ -297,9 +298,16 @@ export default function App() {
 
       {/* Cabeçalho */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.headerTitulo}>Monitor de Validade</Text>
-          <Text style={styles.headerSubtitulo}>Geladeira & Medicamentos</Text>
+        <View style={styles.headerLadoEsquerdo}>
+          <Image
+            source={require('./assets/logo_validade.png')}
+            style={styles.logoHeader}
+            resizeMode="contain"
+          />
+          <View>
+            <Text style={styles.headerTitulo}>Monitor de Validade</Text>
+            <Text style={styles.headerSubtitulo}>Geladeira & Medicamentos</Text>
+          </View>
         </View>
         <TouchableOpacity
           style={styles.botaoAdicionarTopo}
@@ -408,8 +416,13 @@ export default function App() {
             style={[styles.botaoFiltro, filtro === 'GELADEIRA' && styles.botaoFiltroAtivo]}
             onPress={() => setFiltro('GELADEIRA')}
           >
+            <Image
+              source={require('./assets/icone_geladeira.jpg')}
+              style={styles.iconeFiltroMini}
+              resizeMode="contain"
+            />
             <Text style={[styles.textoFiltro, filtro === 'GELADEIRA' && styles.textoFiltroAtivo]}>
-              🧊 Geladeira
+              Geladeira
             </Text>
           </TouchableOpacity>
 
@@ -417,8 +430,13 @@ export default function App() {
             style={[styles.botaoFiltro, filtro === 'MEDICAMENTOS' && styles.botaoFiltroAtivo]}
             onPress={() => setFiltro('MEDICAMENTOS')}
           >
+            <Image
+              source={require('./assets/icone_medicamento.jpg')}
+              style={styles.iconeFiltroMini}
+              resizeMode="contain"
+            />
             <Text style={[styles.textoFiltro, filtro === 'MEDICAMENTOS' && styles.textoFiltroAtivo]}>
-              💊 Medicamentos
+              Medicamentos
             </Text>
           </TouchableOpacity>
         </View>
@@ -426,8 +444,16 @@ export default function App() {
         {/* Lista de Itens com Ordenação e Cores de Urgência */}
         {produtosFiltrados.length === 0 ? (
           <View style={styles.containerVazio}>
-            <Ionicons name="cube-outline" size={54} color="#94a3b8" />
-            <Text style={styles.textoVazio}>Nenhum produto cadastrado nesta categoria.</Text>
+            <Image
+              source={require('./assets/logo_validade.png')}
+              style={styles.imagemVazio}
+              resizeMode="contain"
+            />
+            <Text style={styles.textoVazio}>
+              {filtroStatus !== 'TODOS'
+                ? 'Nenhum produto encontrado neste critério.'
+                : 'Nenhum produto cadastrado nesta categoria.'}
+            </Text>
             <Text style={styles.subtextoVazio}>Toque em "+ Novo" no topo para adicionar.</Text>
           </View>
         ) : (
@@ -443,13 +469,18 @@ export default function App() {
                   { borderLeftColor: status.corBorda, borderLeftWidth: 5 },
                 ]}
               >
+                <Image
+                  source={
+                    item.categoria === 'GELADEIRA'
+                      ? require('./assets/icone_geladeira.jpg')
+                      : require('./assets/icone_medicamento.jpg')
+                  }
+                  style={styles.iconeProdutoCard}
+                  resizeMode="contain"
+                />
+
                 <View style={styles.infoProduto}>
-                  <View style={styles.linhaTitulo}>
-                    <Text style={styles.iconeCategoria}>
-                      {item.categoria === 'GELADEIRA' ? '🧊' : '💊'}
-                    </Text>
-                    <Text style={styles.nomeProduto}>{item.nome}</Text>
-                  </View>
+                  <Text style={styles.nomeProduto}>{item.nome}</Text>
 
                   <Text style={styles.detalhesProduto}>
                     Qtd: <Text style={styles.destaqueDetalhe}>{item.quantidade}</Text> • Vence em:{' '}
@@ -510,13 +541,18 @@ export default function App() {
                 ]}
                 onPress={() => setCategoria('GELADEIRA')}
               >
+                <Image
+                  source={require('./assets/icone_geladeira.jpg')}
+                  style={styles.iconeModalMini}
+                  resizeMode="contain"
+                />
                 <Text
                   style={[
                     styles.textoCategoria,
                     categoria === 'GELADEIRA' && styles.textoCategoriaAtivo,
                   ]}
                 >
-                  🧊 Geladeira
+                  Geladeira
                 </Text>
               </TouchableOpacity>
 
@@ -527,13 +563,18 @@ export default function App() {
                 ]}
                 onPress={() => setCategoria('MEDICAMENTOS')}
               >
+                <Image
+                  source={require('./assets/icone_medicamento.jpg')}
+                  style={styles.iconeModalMini}
+                  resizeMode="contain"
+                />
                 <Text
                   style={[
                     styles.textoCategoria,
                     categoria === 'MEDICAMENTOS' && styles.textoCategoriaAtivo,
                   ]}
                 >
-                  💊 Medicamento
+                  Medicamento
                 </Text>
               </TouchableOpacity>
             </View>
@@ -597,20 +638,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 12,
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
   },
+  headerLadoEsquerdo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  logoHeader: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+  },
   headerTitulo: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#0f172a',
   },
   headerSubtitulo: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#64748b',
-    marginTop: 2,
+    marginTop: 1,
   },
   botaoAdicionarTopo: {
     flexDirection: 'row',
@@ -690,6 +741,8 @@ const styles = StyleSheet.create({
   },
   botaoFiltro: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
     paddingVertical: 8,
     backgroundColor: '#ffffff',
     borderRadius: 8,
@@ -700,6 +753,12 @@ const styles = StyleSheet.create({
   botaoFiltroAtivo: {
     backgroundColor: '#2563eb',
     borderColor: '#2563eb',
+  },
+  iconeFiltroMini: {
+    width: 18,
+    height: 18,
+    borderRadius: 4,
+    marginRight: 6,
   },
   textoFiltro: {
     fontSize: 13,
@@ -713,11 +772,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    padding: 14,
+    padding: 12,
     borderRadius: 10,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#e2e8f0',
+  },
+  iconeProdutoCard: {
+    width: 48,
+    height: 48,
+    borderRadius: 10,
+    marginRight: 12,
   },
   infoProduto: {
     flex: 1,
@@ -727,9 +792,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     marginBottom: 4,
-  },
-  iconeCategoria: {
-    fontSize: 18,
   },
   nomeProduto: {
     fontSize: 16,
@@ -765,23 +827,45 @@ const styles = StyleSheet.create({
   containerVazio: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 40,
+    paddingVertical: 36,
     backgroundColor: '#ffffff',
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#e2e8f0',
     borderStyle: 'dashed',
   },
+  imagemVazio: {
+    width: 76,
+    height: 76,
+    marginBottom: 10,
+  },
   textoVazio: {
     fontSize: 15,
     fontWeight: '600',
     color: '#475569',
-    marginTop: 12,
+    marginTop: 8,
   },
   subtextoVazio: {
     fontSize: 13,
     color: '#94a3b8',
     marginTop: 4,
+  },
+  iconeModalMini: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    marginRight: 6,
+  },
+  opcaoCategoria: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    backgroundColor: '#f1f5f9',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
   },
   modalOverlay: {
     flex: 1,
