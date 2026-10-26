@@ -16,7 +16,7 @@ Atender 100% aos requisitos do tema **Monitor de Validade (Geladeira e Medicamen
 - Filtros por categoria (Todos, 🧊 Geladeira e 💊 Medicamentos).
 - Painel de métricas no topo com contagem em tempo real.
 - Persistência local com `AsyncStorage` (os dados não se perdem ao fechar o app).
-- Dados iniciais pré-carregados para demonstração imediata no Live Preview.
+- Dados iniciais pré-carregados para a demonstração ao vivo imediata.
 
 ---
 
@@ -109,7 +109,7 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 
 ---
 
-## 🎬 Roteiro Sugerido para o Live Preview (Demonstração ao Vivo)
+## 🎬 Roteiro Sugerido para a Demonstração ao Vivo
 
 1. **Abertura (30s)**:
    - "Nosso aplicativo é o **Monitor de Validade para Geladeira e Medicamentos**."
