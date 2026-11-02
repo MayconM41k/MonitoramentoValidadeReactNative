@@ -787,12 +787,6 @@ const styles = StyleSheet.create({
   infoProduto: {
     flex: 1,
   },
-  linhaTitulo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 4,
-  },
   nomeProduto: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -910,15 +904,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     marginBottom: 12,
-  },
-  opcaoCategoria: {
-    flex: 1,
-    paddingVertical: 10,
-    backgroundColor: '#f1f5f9',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
   },
   opcaoCategoriaAtiva: {
     backgroundColor: '#eff6ff',

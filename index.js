@@ -2,7 +2,7 @@ import { registerRootComponent } from 'expo';
 
 import App from './App';
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
+// registerRootComponent chama AppRegistry.registerComponent('main', () => App);
+// Ele também garante que, seja carregando o aplicativo no Expo Go ou em uma compilação nativa,
+// o ambiente seja configurado adequadamente.
 registerRootComponent(App);

@@ -1,3 +1,9 @@
+Dependencias
+//npm.cmd install
+//npx.cmd expo start
+//npx.cmd expo start --web
+// Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned se optar por destravar o powershell
+
 # ⏰ Monitor de Validade (Geladeira & Medicamentos)
 
 Aplicativo mobile multiplataforma desenvolvido em **React Native com Expo**, com foco em simplicidade, facilidade de manutenção e alto valor prático para o dia a dia.
@@ -5,7 +11,9 @@ Aplicativo mobile multiplataforma desenvolvido em **React Native com Expo**, com
 ---
 
 ## 🎯 Objetivo do Projeto
+
 Atender 100% aos requisitos do tema **Monitor de Validade (Geladeira e Medicamentos)**:
+
 - Cadastro rápido de produtos com nome, categoria, data de vencimento e quantidade.
 - **Ordenação automática por proximidade da data de validade** (o mais urgente sempre aparece no topo).
 - **Alertas visuais de urgência baseados em cores**:
@@ -23,12 +31,16 @@ Atender 100% aos requisitos do tema **Monitor de Validade (Geladeira e Medicamen
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
+
 - Node.js instalado no computador.
 - Celular físico com o aplicativo **Expo Go** instalado (disponível na Google Play Store e Apple App Store) **OU** navegador web no computador.
 
 ### Passo a passo
 
+> **Atalho para Windows:** Basta executar o arquivo **`iniciar.bat`** (dois cliques ou `.\iniciar.bat` no terminal) para instalar as dependências automaticamente e abrir a aplicação no navegador.
+
 1. **Instalar dependências (caso seja clonado do GitHub)**:
+
    ```bash
    npm install
    ```
@@ -39,7 +51,6 @@ Atender 100% aos requisitos do tema **Monitor de Validade (Geladeira e Medicamen
      npx expo start
      ```
      > Abra o app **Expo Go** no celular e escaneie o QR Code que aparecerá no terminal.
-   
    - Para rodar diretamente no navegador web do computador (ideal para projetar na sala de aula):
      ```bash
      npx expo start --web
@@ -62,9 +73,10 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 
 ## 🎤 Estrutura Obrigatória da Apresentação Técnica
 
-> *Este roteiro cobre na íntegra os 4 tópicos obrigatórios exigidos para a apresentação do projeto.*
+> _Este roteiro cobre na íntegra os 4 tópicos obrigatórios exigidos para a apresentação do projeto._
 
 ### 1. Tecnologias Utilizadas
+
 - **Framework Base**: **React Native** com ecossistema **Expo (SDK 58)**, permitindo compilação multiplataforma simultânea para Android, iOS e Web.
 - **Gerenciamento de Estado**: Hooks nativos do React (`useState` para controle de inputs, listas e filtros; `useEffect` para ciclo de vida e carregamento inicial).
 - **Persistência de Dados**: `@react-native-async-storage/async-storage` para armazenamento local assíncrono chave-valor diretamente no dispositivo.
@@ -75,16 +87,16 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 ### 2. Três Principais Desafios Técnicos Encontrados & Soluções
 
 1. **Cálculo de Diferença de Dias e Tratamento de Datas**:
-   - *Desafio*: Evitar discrepâncias de fuso horário e cálculos errados de "dias restantes" ao comparar a data atual com a data de validade digitada.
-   - *Solução*: Criamos funções utilitárias puras (`converterDataParaObjeto` e `calcularDiasRestantes`) que normalizam as horas para meia-noite (`00:00:00`), garantindo cálculo exato de dias em qualquer dispositivo.
+   - _Desafio_: Evitar discrepâncias de fuso horário e cálculos errados de "dias restantes" ao comparar a data atual com a data de validade digitada.
+   - _Solução_: Criamos funções utilitárias puras (`converterDataParaObjeto` e `calcularDiasRestantes`) que normalizam as horas para meia-noite (`00:00:00`), garantindo cálculo exato de dias em qualquer dispositivo.
 
 2. **Ordenação Automática em Tempo Real sem Perda de Performance**:
-   - *Desafio*: Manter a lista sempre ordenada por urgência sem travar a interface quando o usuário cadastra ou remove itens.
-   - *Solução*: Aplicamos o método `.sort()` ordenando pelo timestamp de vencimento antes da filtragem, garantindo que o item vencido ou mais próximo do vencimento suba imediatamente para o topo.
+   - _Desafio_: Manter a lista sempre ordenada por urgência sem travar a interface quando o usuário cadastra ou remove itens.
+   - _Solução_: Aplicamos o método `.sort()` ordenando pelo timestamp de vencimento antes da filtragem, garantindo que o item vencido ou mais próximo do vencimento suba imediatamente para o topo.
 
 3. **Compatibilidade Multiplataforma (Celular e Navegador Web)**:
-   - *Desafio*: O componente nativo `Alert.alert` com múltiplos botões de confirmação se comporta de maneira diferente no navegador web.
-   - *Solução*: Implementamos uma checagem com `Platform.OS === 'web'` usando `window.confirm` no navegador e `Alert.alert` nativo no mobile, tornando a demonstração segura tanto em projetores com PC quanto no celular.
+   - _Desafio_: O componente nativo `Alert.alert` com múltiplos botões de confirmação se comporta de maneira diferente no navegador web.
+   - _Solução_: Implementamos uma checagem com `Platform.OS === 'web'` usando `window.confirm` no navegador e `Alert.alert` nativo no mobile, tornando a demonstração segura tanto em projetores com PC quanto no celular.
 
 ---
 
@@ -103,6 +115,7 @@ O projeto foi estruturado com código limpo e direto, em nível iniciante, facil
 ---
 
 ### 4. Lições Aprendidas e Experiência de Desenvolvimento
+
 - **Domínio do ciclo do React Native**: Entendimento prático de como o React Native gerencia estados com `useState` e re-renderiza a lista automaticamente.
 - **Validação de entradas no mobile**: A importância de aplicar máscaras amigáveis para evitar que o usuário digite datas inválidas e comprometa os cálculos.
 - **Desenvolvimento Individual Completo**: Condução autônoma de todas as etapas (regras de cálculo de datas, interface, persistência com AsyncStorage e design dos alertas visuais), garantindo entrega de 100% dos requisitos com código simples e bem estruturado.
